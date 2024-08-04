@@ -1,13 +1,13 @@
 /*
 @title: Mancala
 @author: Lenochodik
-@tags: []
+@tags: ['strategy', 'classic', 'multiplayer', 'logic']
 @addedOn: 2024-00-00
 */
 
 const player = "p"
-const pit = "1"
-const tile = "2"
+const storeUp = "1"
+const storeDown = "2"
 const half1 = "3"
 const half2 = "4"
 const nothing = "5"
@@ -41,7 +41,7 @@ C1LLLLLLLLLLLL1C
 9C1LLLLLLLLLL199
 9CC1LLLLLLLL199C
 999C11111111C9CC`],
-  [pit, bitmap`
+  [storeUp, bitmap`
 C9CC11111111C999
 99C1LLLLLLLL2CC9
 9C1LLLLLLLLLL2CC
@@ -58,7 +58,7 @@ C9CC11111111C999
 1LL1111111111LL1
 1LL1111111121LL1
 1LL1111111121LL1`],
-  [tile, bitmap`
+  [storeDown, bitmap`
 1LL1111111121LL2
 1LL1111111121LL1
 1LL1111111121LL2
@@ -145,22 +145,22 @@ C001L22121212220
 CC9C0L1111111L09
 C9C90LLLLLLLL0C9`],
   [tile2, bitmap`
-C99C11111122CC9C
-99C1LLLLLLLL2C99
-C91LLLLLLLLLL2C9
-C1LLLLLLLLLLLL1C
-1LLLLLLLLLLLLLL1
-1LLLLLL12LLLLLL2
-1LLLLL1112LLLLL2
-1LLLL111112LLLL1
-1LLLL111112LLLL1
-1LLLLL1111LLLLL1
-1LLLLLL11LLLLLL1
-1LLLLLLLLLLLLLL1
-C1LLLLLLLLLLLL1C
-9C1LLLLLLLLLL199
-9CC1LLLLLLLL199C
-999C11111111C9CC`],
+C99CFFFFFF66CC9C
+99CFLLLLLLLL6C99
+C9FLLLLLLLLLL6C9
+CFLLLLLLLLLLLLFC
+FLLLLLLLLLLLLLLF
+FLLLLLLF6LLLLLL6
+FLLLLLFFF6LLLLL6
+FLLLLFFFFF6LLLLF
+FLLLLFFFFF6LLLLF
+FLLLLLFFFFLLLLLF
+FLLLLLLFFLLLLLLF
+FLLLLLLLLLLLLLLF
+CFLLLLLLLLLLLLFC
+9CFLLLLLLLLLLF99
+9CCFLLLLLLLLF99C
+999CFFFFFFFFC9CC`],
   [tile3, bitmap`
 C99C11111122CC9C
 99C1LLLLLLLL2C99
@@ -183,29 +183,64 @@ C1LLLLLLLLLLLL1C
   [tile6, bitmap`.`],
   [tile7, bitmap`.`],
   [tile8, bitmap`
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................`],
-  [tile9, bitmap`.`],
-  [tile10, bitmap`.`],
+CCCCCCCCC9CC1111
+CCCCCCCC99C1LLLL
+CCCCCCCC9C1LLLLL
+CCCCCCCC91LLLLLL
+CCCCCCCC1LLLLLLL
+CCCCCCCC1LLLL111
+CCCCCCCC1LLL1111
+CCCCCCCC1LL11111
+CCCCCCCC1LL11111
+CCCCCCCC1LL11111
+CCCCCCCC1LL11111
+CCCCCCCC1LL11111
+CCCCCCCC1LL11111
+CCCCCCCC1LL11111
+CCCCCCCC1LL11111
+CCCCCCCC1LL11111`],
+  [tile9, bitmap`
+CCCCCCCC1LL11111
+CCCCCCCC1LL11111
+CCCCCCCC1LL11111
+CCCCCCCC1LL11111
+CCCCCCCC1LL11111
+CCCCCCCC1LL11111
+CCCCCCCC1LL11111
+CCCCCCCC1LL11111
+CCCCCCCC1LL11111
+CCCCCCCC1LLL1111
+CCCCCCCC1LLLL111
+CCCCCCCC1LLLLLLL
+CCCCCCCCC1LLLLLL
+CCCCCCCC9C1LLLLL
+CCCCCCCC99C1LLLL
+CCCCCCCCC9CC1111`],
+  [tile10, bitmap`
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+CC9CCC999C9CCC9C
+C9999C9C99C999CC
+CCCC9C9CC99CC99C
+CC999C9CCC9CC99C
+C99CCC9CCC9CC9CC
+C9CCCC9CCC9999CC
+CC99999CCCCCCCC9`],
 )
 
-
-
 setSolids([])
+
+setPushables({
+  [player]: []
+})
+
 
 let level = 0
 const levels = [
@@ -216,15 +251,39 @@ const levels = [
 5144444415
 5233333325
 5555555555
-55pppppp55
+55wppppp55
 55q5555555`
 ]
-
 setMap(levels[level])
 
-setPushables({
-  [player]: []
-})
+
+
+const halfBoardSize = 6
+const initialPieces = 5
+const game = {
+  board: Array(halfBoardSize * 2).fill(initialPieces),
+  stores: [0, 0],
+  currentPlayer: 0,
+}
+
+function printBoardText() {
+  clearText()
+
+  // Bottom half
+  for (let i = 0; i < halfBoardSize; i++)
+    addText(game.board[i].toString(), { x: 5 + 2 * i, y: 13, color: color`0` })
+
+  // Top half
+  for (let i = 0; i < halfBoardSize; i++)
+    addText(game.board[i].toString(), { x: 15 - 2 * i, y: 3, color: color`0` })
+
+  // Left store
+  addText(game.stores[0].toString(), { x: 3, y: 8, color: color`0` })
+
+  // Right store
+  addText(game.stores[1].toString(), { x: 17, y: 8, color: color`0` })
+}
+printBoardText()
 
 onInput("s", () => {
   getFirst(player).y += 1
