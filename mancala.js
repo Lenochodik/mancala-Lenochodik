@@ -5,16 +5,17 @@
 @addedOn: 2024-00-00
 */
 
-const player = "p"
+// = Types =========================================
+const pit = "p"
 const storeUp = "1"
 const storeDown = "2"
 const half1 = "3"
 const half2 = "4"
 const nothing = "5"
 
-const tile1 = "q"
-const tile2 = "w"
-const tile3 = "e"
+const handUp = "q"
+const handDown = "w"
+const pitSelected = "e"
 const tile4 = "r"
 const tile5 = "t"
 const tile6 = "y"
@@ -44,8 +45,9 @@ const num6_L = "Q"
 const num7_L = "R"
 const num8_L = "S"
 const num9_L = "T"
+// =================================================
 
-
+// = Legends, solids, pushables ====================
 setLegend(
   // Custom font
   // - right
@@ -391,7 +393,7 @@ setLegend(
 ................
 ................`],
   // Basics
-  [player, bitmap`
+  [pit, bitmap`
 ....11111122....
 ...1000000002...
 ..100000000002..
@@ -408,23 +410,23 @@ setLegend(
 ..100000000001..
 ...1000000001...
 ....11111111....`],
-  /*[player, bitmap`
-....11111122....
-...1LLLLLLLL2...
-..1LLLLLLLLLL2..
-.1LLLLLLLLLLLL1.
-1LLLLLLLLLLLLLL1
-1LLLLLL12LLLLLL2
-1LLLLL1112LLLLL2
-1LLLL111112LLLL1
-1LLLL111112LLLL1
-1LLLLL1111LLLLL1
-1LLLLLL11LLLLLL1
-1LLLLLLLLLLLLLL1
-.1LLLLLLLLLLLL1.
-..1LLLLLLLLLL1..
-...1LLLLLLLL1...
-....11111111....`],*/
+  [pitSelected, bitmap`
+....DDDDDD44....
+...D000000004...
+..D00000000004..
+.D000000000000D.
+D00000000000000D
+D000000LD0000004
+D00000LLLD000004
+D0000LLLLLD0000D
+D0000LLLLLD0000D
+D00000LLLL00000D
+D000000LL000000D
+D00000000000000D
+.D000000000000D.
+..D0000000000D..
+...D00000000D...
+....DDDDDDDD....`],
   [storeUp, bitmap`
 ....11111111....
 ...1000000002...
@@ -511,7 +513,7 @@ C99CCC9CCC9CC9CC
 C9CCCC9CCC9999CC
 CC99999CCCCCCCC9`],
   // Tiles
-  [tile1, bitmap`
+  [handUp, bitmap`
 .....00.........
 ....0220........
 ....0220........
@@ -528,40 +530,23 @@ CC99999CCCCCCCC9`],
 ...012222222210.
 ....0L1111111L0.
 ....0LLLLLLLL0..`],
-  [tile2, bitmap`
-....FFFFFF66....
-...FLLLLLLLL6...
-..FLLLLLLLLLL6..
-.FLLLLLLLLLLLLF.
-FLLLLLLLLLLLLLLF
-FLLLLLLF6LLLLLL6
-FLLLLLFFF6LLLLL6
-FLLLLFFFFF6LLLLF
-FLLLLFFFFF6LLLLF
-FLLLLLFFFFLLLLLF
-FLLLLLLFFLLLLLLF
-FLLLLLLLLLLLLLLF
-.FLLLLLLLLLLLLF.
-..FLLLLLLLLLLF..
-...FLLLLLLLLF...
-....FFFFFFFF....`],
-  [tile3, bitmap`
-...........11111
-.........1111111
-.......1111LLLLL
-......111LLLLLLL
-.....11LLLLLLLLL
-....11LLLLLLLLLL
-...11LLLLLLLLLLL
-..11LLLLLLLLLLLL
-..1LLLLLLLLLLLLL
-.11LLLLLLLLLLLLL
-.1LLLLLLLLLLLLLL
-11LLLLLLLLLLLLLL
-1LLLLLLLLLLLLLLL
-1LLLLLLLLLLLLLLL
-1LLLLLLLLLLLLLLL
-1LLLLLLLLLLLLLLL`],
+  [handDown, bitmap`
+..0LLLLLLLL0....
+.0L1111111L0....
+.012222222210...
+.0212122222100..
+02221212122L100.
+02L222212120L200
+0L021L222220L120
+0L02L021L2200110
+0102102L0220.000
+.00110210220....
+...000210220....
+.....0210220....
+......000220....
+........0220....
+........0220....
+.........00.....`],
   [tile4, bitmap`
 11111...........
 1111122.........
@@ -682,63 +667,97 @@ LLLLLLLLLLLLLL11`],
 ................
 ................`],
 )
+// =================================================
 
-setSolids([])
-
-setPushables({
-  [player]: []
-})
-
-
+// = Levels ========================================
 let level = 0
 const levels = [
   map`
-........
-.pppppp.
-14444441
-23333332
-.wppppp.
-.q......`
+..........
+..........
+..pppppp..
+.14444441.
+.23333332.
+..pppppp..
+..........
+..........`
 ]
 setMap(levels[level])
 
 setBackground(nothing)
+// =================================================
 
-// = Functions =================================================
+
+// = Melodies, sounds ==============================
+const soundMoveHand = tune`
+300: B4^300,
+9300`
+const soundMoveHandOutOfBounds = tune`
+300: A4^300 + F4~300 + G4~300 + B4~300 + C5~300,
+9300`
+const soundPutPieceOdd = tune`
+300: G4~300 + B4/300,
+9300`
+const soundPutPieceEven = tune`
+300: A4~300 + C5/300,
+9300`
+const soundCollectOpponentsPieces = tune`
+150: B4^150,
+150: C5^150,
+150: D5/150,
+150: B4^150,
+150: D5/150,
+4050`
+const soundPlayAgain = tune`
+166.66666666666666: B4^166.66666666666666,
+166.66666666666666: C5^166.66666666666666,
+166.66666666666666: D5^166.66666666666666,
+166.66666666666666: E5^166.66666666666666,
+166.66666666666666: F5^166.66666666666666,
+166.66666666666666: G5^166.66666666666666,
+166.66666666666666: A5^166.66666666666666,
+166.66666666666666: B5^166.66666666666666,
+4000`
+// =================================================
+
+// = Functions =====================================
 const customFont = [
   [num0_R, num1_R, num2_R, num3_R, num4_R, num5_R, num6_R, num7_R, num8_R, num9_R],
   [num0_L, num1_L, num2_L, num3_L, num4_L, num5_L, num6_L, num7_L, num8_L, num9_L],
 ]
 
-function addCustomText(str, x, y, bgSprite = player) {
+function addCustomText(str, x, y, bgSprite = pit) {
   clearTile(x, y)
   addSprite(x, y, bgSprite)
   const strReversed = str.split('').reverse().join('')
   for(let i = 0; i < str.length && i < customFont.length; i++)
     addSprite(x, y, customFont[i][parseInt(strReversed.charAt(i), 10)])
 }
-// =============================================================
+// =================================================
 
 
-// = Mancala code ==============================================
+// = Mancala code ==================================
 const halfBoardSize = 6
 const initialPieces = 5
 const storesCount = 2
 const storesIndexes = [halfBoardSize, 2 * halfBoardSize + 1]
 const game = {
-  board: Array(halfBoardSize * 2 + storesCount).fill(initialPieces),
+  board: Array(halfBoardSize * 2 + storesCount)
+    .fill(initialPieces),
   // For debug purposes:
   // board: Array.from({ length: halfBoardSize * 2 + storesCount }, (_, index) => index),
   currentPlayer: 0,
 }
+game.board[storesIndexes[0]] = 0
+game.board[storesIndexes[1]] = 0
 
-const boardTopY = 1
-const boardBotY = 4
-const boardX = 1
+const boardTopY = 2
+const boardBotY = 5
+const boardX = 2
 
-const storeLeftX = 0
-const storeRightX = 7
-const storeY = 3
+const storeLeftX = 1
+const storeRightX = 8
+const storeY = 4
 
 function printBoardText() {
   // Bottom half
@@ -756,12 +775,56 @@ function printBoardText() {
   addCustomText(game.board[storesIndexes[0]].toString(), storeRightX, storeY, storeDown)
 }
 printBoardText()
-// ===============================================================
 
-onInput("s", () => {
-  getFirst(player).y += 1
+
+const handMinX = boardX
+const handMaxX = boardX + halfBoardSize - 1
+let objectHand = null
+
+function prepareHandForSelection() {
+  const isBot = game.currentPlayer === 0
+  
+  objectHand?.remove()
+  isBot ?
+    addSprite(handMinX, boardBotY + 1, handUp) :
+    addSprite(handMaxX, boardTopY - 1, handDown)
+  objectHand = isBot ? getFirst(handUp) : getFirst(handDown)
+}
+prepareHandForSelection()
+
+function handCoordsToBoardCoords() {
+  const isBot = game.currentPlayer === 0
+
+  if (isBot)
+    return objectHand.x - handMinX
+  else
+    return handMaxX - objectHand.x + (halfBoardSize + 1)
+}
+
+onInput("a", () => {
+  if(objectHand.x <= handMinX)
+    playTune(soundMoveHandOutOfBounds)
+  else {
+    playTune(soundMoveHand)
+    objectHand.x -= 1
+  }
 })
 
-afterInput(() => {
+onInput("d", () => {
+  if(objectHand.x >= handMaxX)
+    playTune(soundMoveHandOutOfBounds)
+  else {
+    playTune(soundMoveHand)
+    objectHand.x += 1
+  }
+})
 
+onInput("k", () => {
+  const index = handCoordsToBoardCoords()
+  game.board[index] = 0
+  printBoardText()
+
+  playTune(soundPutPieceOdd)
+
+  // TODO: make loop to spread the pieces
 })
