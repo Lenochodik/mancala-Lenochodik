@@ -16,8 +16,8 @@ const nothing = "5"
 const handUp = "q"
 const handDown = "w"
 const pitSelected = "e"
-const tile4 = "r"
-const tile5 = "t"
+const handUpClosed = "r"
+const handDownClosed = "t"
 const tile6 = "y"
 const tile7 = "u"
 const tile8 = "i"
@@ -547,40 +547,40 @@ CC99999CCCCCCCC9`],
 ........0220....
 ........0220....
 .........00.....`],
-  [tile4, bitmap`
-11111...........
-1111122.........
-LLLLL2222.......
-LLLLLLL221......
-LLLLLLLLL11.....
-LLLLLLLLLL21....
-LLLLLLLLLLL11...
-LLLLLLLLLLLL11..
-LLLLLLLLLLLLL11.
-LLLLLLLLLLLLL11.
-LLLLLLLLLLLLLL11
-LLLLLLLLLLLLLL11
-LLLLLLLLLLLLLL11
-LLLLLLLLLLLLLL11
-LLLLLLLLLLLLLL11
-LLLLLLLLLLLLLL11`],
-  [tile5, bitmap`
-LLLLLLLLLLLLLLL1
-LLLLLLLLLLLLLLL1
-LLLLLLLLLLLLLLL1
-LLLLLLLLLLLLLLL1
-LLLLLLLLLLLLLL11
-LLLLLLLLLLLLLL11
-LLLLLLLLLLLLL11.
-LLLLLLLLLLLLL11.
-LLLLLLLLLLLL11..
-LLLLLLLLLLL11...
-LLLLLLLLLL11....
-LLLLLLLLL11.....
-LLLLLLL111......
-LLLLL1111.......
-1111111.........
-11111...........`],
+  [handUpClosed, bitmap`
+.......000......
+.....000120.....
+....022012000...
+....02201201100.
+000.0220L2012010
+0110022L120L20L0
+021L022222L120L0
+002L021212222L20
+.001L22121212220
+..0012222212120.
+...012222222210.
+....0L1111111L0.
+....0LLLLLLLL0..
+................
+................
+................`],
+  [handDownClosed, bitmap`
+................
+................
+................
+..0LLLLLLLL0....
+.0L1111111L0....
+.012222222210...
+.0212122222100..
+02221212122L100.
+02L222212120L200
+0L021L222220L120
+0L02L021L2200110
+0102102L0220.000
+.00110210220....
+...000210220....
+.....021000.....
+......000.......`],
   [tile6, bitmap`
 1LLLLLLLLLLLLLLL
 1LLLLLLLLLLLLLLL
@@ -730,7 +730,7 @@ function addCustomText(str, x, y, bgSprite = pit) {
   clearTile(x, y)
   addSprite(x, y, bgSprite)
   const strReversed = str.split('').reverse().join('')
-  for(let i = 0; i < str.length && i < customFont.length; i++)
+  for (let i = 0; i < str.length && i < customFont.length; i++)
     addSprite(x, y, customFont[i][parseInt(strReversed.charAt(i), 10)])
 }
 // =================================================
@@ -738,7 +738,7 @@ function addCustomText(str, x, y, bgSprite = pit) {
 
 // = Mancala code ==================================
 const halfBoardSize = 6
-const initialPieces = 5
+const initialPieces = 4
 const storesCount = 2
 const storesIndexes = [halfBoardSize, 2 * halfBoardSize + 1]
 const game = {
@@ -783,7 +783,7 @@ let objectHand = null
 
 function prepareHandForSelection() {
   const isBot = game.currentPlayer === 0
-  
+
   objectHand?.remove()
   isBot ?
     addSprite(handMinX, boardBotY + 1, handUp) :
@@ -802,7 +802,9 @@ function handCoordsToBoardCoords() {
 }
 
 onInput("a", () => {
-  if(objectHand.x <= handMinX)
+  if (!objectHand) return
+
+  if (objectHand.x <= handMinX)
     playTune(soundMoveHandOutOfBounds)
   else {
     playTune(soundMoveHand)
@@ -811,7 +813,9 @@ onInput("a", () => {
 })
 
 onInput("d", () => {
-  if(objectHand.x >= handMaxX)
+  if (!objectHand) return
+
+  if (objectHand.x >= handMaxX)
     playTune(soundMoveHandOutOfBounds)
   else {
     playTune(soundMoveHand)
@@ -819,12 +823,45 @@ onInput("d", () => {
   }
 })
 
+// TODO: check the end of the game (no pieces on one side)
+
 onInput("k", () => {
-  const index = handCoordsToBoardCoords()
+  if (!objectHand) return
+
+  let index = handCoordsToBoardCoords()
+  let pieces = game.board[index]
   game.board[index] = 0
+  playTune(soundPutPieceOdd)
   printBoardText()
 
-  playTune(soundPutPieceOdd)
+  objectHand.remove()
+  objectHand = null
 
-  // TODO: make loop to spread the pieces
+  // Loop to spread the pieces
+  let loopInterval = setInterval(() => {
+    if (pieces <= 0) {
+      clearInterval(loopInterval)
+
+      // If it ends up in my store
+      if (index === storesIndexes[game.currentPlayer]) {
+        playTune(soundPlayAgain)
+      } else {
+        // Switch player
+        game.currentPlayer = 1 - game.currentPlayer
+      }
+
+      prepareHandForSelection()
+      return
+    }
+
+    playTune(soundPutPieceEven)
+
+    index++
+    pieces--
+    // Skip oponnent's store
+    if (index === storesIndexes[1 - game.currentPlayer])
+      index++
+    game.board[index % game.board.length]++
+    printBoardText()
+  }, 500)
 })
