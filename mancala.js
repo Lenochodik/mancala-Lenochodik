@@ -18,6 +18,22 @@ const handDown = "w"
 const handUpClosed = "r"
 const handDownClosed = "t"
 
+const tileTopLeft = "a"
+const tileTopRight = "b"
+const tileTopRightShine = "l"
+const tileBotLeft = "c"
+const tileBotLeftShine = "m"
+const tileBotRight = "d"
+const tileTop = "e"
+const tileTopShine = "k"
+const tileBot = "f"
+const tileBotShine = "n"
+const tileLeft = "g"
+const tileLeftShine = "o"
+const tileRight = "h"
+const tileRightShine = "j"
+const tileBrown = "i"
+
 const num0_R = "A"
 const num1_R = "B"
 const num2_R = "C"
@@ -506,7 +522,7 @@ CC999C9CCC9CC99C
 C99CCC9CCC9CC9CC
 C9CCCC9CCC9999CC
 CC99999CCCCCCCC9`],
-  // Tiles
+  // Hands
   [handUp, bitmap`
 .....00.........
 ....0220........
@@ -575,6 +591,262 @@ CC99999CCCCCCCC9`],
 ...000210220....
 .....021000.....
 ......000.......`],
+  // Tiles
+  [tileTopLeft, bitmap`
+................
+................
+................
+................
+................
+................
+................
+................
+............1111
+..........111CCC
+.........11CCCCC
+.........1CCCCCC
+........11CCCCCC
+........1CCCCCCC
+........1CCCCCCC
+........1CCCCCCC`],
+  [tileTopRight, bitmap`
+................
+................
+................
+................
+................
+................
+................
+................
+1111............
+CCC111..........
+CCCCC11.........
+CCCCCC1.........
+CCCCCC11........
+CCCCCCC1........
+CCCCCCC1........
+CCCCCCC1........`],
+  [tileTopRightShine, bitmap`
+................
+................
+................
+................
+................
+................
+................
+................
+1122............
+CCC211..........
+CCCCC22.........
+CCCCCC2.........
+CCCCCC11........
+CCCCCCC1........
+CCCCCCC1........
+CCCCCCC1........`],
+  [tileTop, bitmap`
+................
+................
+................
+................
+................
+................
+................
+................
+1111111111111111
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC`],
+  [tileTopShine, bitmap`
+................
+................
+................
+................
+................
+................
+................
+................
+1111212222222222
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC`],
+  [tileBotLeft, bitmap`
+........1CCCCCCC
+........1CCCCCCC
+........1CCCCCCC
+........11CCCCCC
+.........1CCCCCC
+.........11CCCCC
+..........111CCC
+............1111
+................
+................
+................
+................
+................
+................
+................
+................`],
+  [tileBotLeftShine, bitmap`
+........1CCCCCCC
+........1CCCCCCC
+........1CCCCCCC
+........11CCCCCC
+.........2CCCCCC
+.........22CCCCC
+..........112CCC
+............2211
+................
+................
+................
+................
+................
+................
+................
+................`],
+  [tileBotRight, bitmap`
+CCCCCCC1........
+CCCCCCC1........
+CCCCCCC1........
+CCCCCC11........
+CCCCCC1.........
+CCCCC11.........
+CCC111..........
+1111............
+................
+................
+................
+................
+................
+................
+................
+................`],
+  [tileBot, bitmap`
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+1111111111111111
+................
+................
+................
+................
+................
+................
+................
+................`],
+  [tileBotShine, bitmap`
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+2222222222121111
+................
+................
+................
+................
+................
+................
+................
+................`],
+  [tileLeft, bitmap`
+........1CCCCCCC
+........1CCCCCCC
+........1CCCCCCC
+........1CCCCCCC
+........1CCCCCCC
+........1CCCCCCC
+........1CCCCCCC
+........1CCCCCCC
+........1CCCCCCC
+........1CCCCCCC
+........1CCCCCCC
+........1CCCCCCC
+........1CCCCCCC
+........1CCCCCCC
+........1CCCCCCC
+........1CCCCCCC`],
+  [tileLeftShine, bitmap`
+........1CCCCCCC
+........1CCCCCCC
+........1CCCCCCC
+........2CCCCCCC
+........1CCCCCCC
+........2CCCCCCC
+........2CCCCCCC
+........2CCCCCCC
+........2CCCCCCC
+........2CCCCCCC
+........2CCCCCCC
+........2CCCCCCC
+........2CCCCCCC
+........2CCCCCCC
+........2CCCCCCC
+........2CCCCCCC`],
+  [tileRight, bitmap`
+CCCCCCC1........
+CCCCCCC1........
+CCCCCCC1........
+CCCCCCC1........
+CCCCCCC1........
+CCCCCCC1........
+CCCCCCC1........
+CCCCCCC1........
+CCCCCCC1........
+CCCCCCC1........
+CCCCCCC1........
+CCCCCCC1........
+CCCCCCC1........
+CCCCCCC1........
+CCCCCCC1........
+CCCCCCC1........`],
+  [tileRightShine, bitmap`
+CCCCCCC2........
+CCCCCCC2........
+CCCCCCC2........
+CCCCCCC2........
+CCCCCCC2........
+CCCCCCC2........
+CCCCCCC2........
+CCCCCCC2........
+CCCCCCC2........
+CCCCCCC2........
+CCCCCCC1........
+CCCCCCC2........
+CCCCCCC2........
+CCCCCCC2........
+CCCCCCC2........
+CCCCCCC1........`],
+  [tileBrown, bitmap`
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC`],
 )
 // =================================================
 
@@ -583,17 +855,15 @@ let level = 0
 const levels = [
   map`
 ..........
-..........
-..pppppp..
-.14444441.
-.23333332.
-..pppppp..
-..........
+aeeeeeekkl
+g.pppppp.j
+g14444441j
+o23333332h
+o.pppppp.h
+mnnffffffd
 ..........`
 ]
 setMap(levels[level])
-
-setBackground(nothing)
 // =================================================
 
 // = Melodies, sounds ==============================
@@ -636,6 +906,7 @@ const customFont = [
 
 function addCustomText(str, x, y, bgSprite = pit) {
   clearTile(x, y)
+  addSprite(x, y, tileBrown)
   addSprite(x, y, bgSprite)
   const strReversed = str.split('').reverse().join('')
   for (let i = 0; i < str.length && i < customFont.length; i++)
@@ -668,7 +939,6 @@ const storeY = 4
 const handMinX = boardX
 const handMaxX = boardX + halfBoardSize - 1
 let objectHand = null
-let objectClosedHand = null
 
 let loopInterval = null
 
@@ -726,11 +996,19 @@ function boardCoordsToHandCoords(index) {
   return [boardX - 1, boardTopY, handDownClosed];
 }
 
-function showClosedHand(index) {
-  const handCoords = boardCoordsToHandCoords(index)
-  objectClosedHand?.remove()
-  addSprite(handCoords[0], handCoords[1], handCoords[2])
-  objectClosedHand = getFirst(handCoords[2])
+function showClosedHand(...indexes) {
+  // Remove closed hands used for animation
+  const closedHandObjects = [...getAll(handUpClosed), ...getAll(handDownClosed)]
+  for (let objectClosedHand of closedHandObjects)
+    objectClosedHand.remove()
+
+  if (!indexes.length)
+    return
+
+  for (let index of indexes) {
+    const [x, y, sprite] = boardCoordsToHandCoords(index)
+    addSprite(x, y, sprite)
+  }
 }
 
 function haveCurrentPlayerAnyMovesLeft() {
@@ -741,13 +1019,33 @@ function haveCurrentPlayerAnyMovesLeft() {
   return sum > 0
 }
 
-function collectAllPiecesLeft() {
+async function collectAllPiecesLeft() {
+  // TODO: here is some bug
   const startIndexOpposite = game.currentPlayer === 1 ? 0 : halfBoardSize + 1;
+
+  let indexes = []
+  for (let i = 0; i < halfBoardSize; i++)
+    indexes.push(i + startIndexOpposite)
+  showClosedHand(indexes)
+
+  await delay(1000)
+
+  let temporaryStore = 0
   for (let i = 0; i < halfBoardSize; i++) {
-    game.board[storesIndexes[1 - game.currentPlayer]] += game.board[i + startIndexOpposite]
+    temporaryStore += game.board[i + startIndexOpposite]
     game.board[i + startIndexOpposite] = 0
   }
   printBoardText()
+  playTune(soundCollectOpponentsPieces)
+  await delay(1000)
+
+
+  showClosedHand(storesIndexes[1 - game.currentPlayer])
+  game.board[storesIndexes[1 - game.currentPlayer]] += temporaryStore
+  printBoardText()
+  await delay(1000)
+
+  
 }
 
 function printGameStatus() {
@@ -779,8 +1077,18 @@ function printGameStatus() {
   })
 }
 
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function startNewGame() {
   setMap(levels[level])
+  setBackground(nothing)
+
+  for (let x = storeLeftX; x <= storeRightX; x++)
+    for (let y = boardTopY; y <= boardBotY; y++)
+      addSprite(x, y, tileBrown)
+
   game = {
     board: Array(halfBoardSize * 2 + storesCount)
       .fill(initialPieces),
@@ -841,7 +1149,7 @@ onInput("k", () => {
   showClosedHand(index)
 
   // Loop to spread the pieces
-  loopInterval = setInterval(() => {
+  loopInterval = setInterval(async () => {
     if (pieces <= 0) {
       clearInterval(loopInterval)
 
@@ -860,15 +1168,30 @@ onInput("k", () => {
           // Was empty hole before?
           // Does opponent has some pieces in the opposite hole?
           if (game.board[index] === 1 && game.board[oppositeIndex] > 0) {
+            showClosedHand(index, oppositeIndex)
+            await delay(1000) // wait for animation to be seen
+            
+            // Temporary store because of animation
+            let temporaryStore = 0
+            
             // Collect 1 piece on my side
-            game.board[storesIndexes[game.currentPlayer]] += game.board[index]
+            temporaryStore += game.board[index]
             game.board[index] = 0
             // Collect everything on opposite side (in opposite pit)
-            game.board[storesIndexes[game.currentPlayer]] += game.board[oppositeIndex]
+            temporaryStore += game.board[oppositeIndex]
             game.board[oppositeIndex] = 0
 
             // Play sound
             playTune(soundCollectOpponentsPieces)
+
+            // Show animation
+            printBoardText()
+            await delay(1000) // wait for animation to be seen
+
+            game.board[storesIndexes[game.currentPlayer]] += temporaryStore
+            printBoardText()
+            showClosedHand(storesIndexes[game.currentPlayer])
+            await delay(1000) // wait for animation to be seen
           }
         }
 
@@ -876,8 +1199,8 @@ onInput("k", () => {
         game.currentPlayer = 1 - game.currentPlayer
       }
 
-      objectClosedHand.remove()
-      objectClosedHand = null
+      // Remove closed hands used for animation
+      showClosedHand()
 
       printBoardText()
 
