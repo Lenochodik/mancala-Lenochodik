@@ -709,15 +709,15 @@ const soundCollectOpponentsPieces = tune`
 150: D5/150,
 4050`
 const soundPlayAgain = tune`
-166.66666666666666: B4^166.66666666666666,
-166.66666666666666: C5^166.66666666666666,
-166.66666666666666: D5^166.66666666666666,
-166.66666666666666: E5^166.66666666666666,
-166.66666666666666: F5^166.66666666666666,
-166.66666666666666: G5^166.66666666666666,
-166.66666666666666: A5^166.66666666666666,
-166.66666666666666: B5^166.66666666666666,
-4000`
+93.75: B4^93.75,
+93.75: C5^93.75,
+93.75: D5^93.75,
+93.75: E5^93.75,
+93.75: F5^93.75,
+93.75: G5^93.75,
+93.75: A5^93.75,
+93.75: B5^93.75,
+2250`
 // =================================================
 
 // = Functions =====================================
@@ -789,6 +789,13 @@ function prepareHandForSelection() {
     addSprite(handMinX, boardBotY + 1, handUp) :
     addSprite(handMaxX, boardTopY - 1, handDown)
   objectHand = isBot ? getFirst(handUp) : getFirst(handDown)
+
+  clearText()
+  addText("Your turn", {
+    x: width() / 2,
+    y: isBot? 2 * height() - 1 : 0,
+    color: color`6`
+  })
 }
 prepareHandForSelection()
 
@@ -830,6 +837,12 @@ onInput("k", () => {
 
   let index = handCoordsToBoardCoords()
   let pieces = game.board[index]
+
+  if (pieces <= 0) {
+    playTune(soundMoveHandOutOfBounds)
+    return
+  }
+
   game.board[index] = 0
   playTune(soundPutPieceOdd)
   printBoardText()
@@ -846,10 +859,34 @@ onInput("k", () => {
       if (index === storesIndexes[game.currentPlayer]) {
         playTune(soundPlayAgain)
       } else {
+        // Check if I can colllect pieces (ended up on my side in empty hole)
+        if ((game.currentPlayer === 0 &&
+            index >= 0 && index < halfBoardSize) ||
+          (game.currentPlayer === 1 &&
+            index > halfBoardSize && index <= (2 * halfBoardSize))) {
+          const oppositeIndex = (2 * halfBoardSize) - index
+
+
+          // Was empty hole before?
+          // Does opponent has some pieces in the opposite hole?
+          if (game.board[index] === 1 && game.board[oppositeIndex] > 0) {
+            // Collect 1 piece on my side
+            game.board[storesIndexes[game.currentPlayer]] += game.board[index]
+            game.board[index] = 0
+            // Collect everything on opposite side (in opposite pit)
+            game.board[storesIndexes[game.currentPlayer]] += game.board[oppositeIndex]
+            game.board[oppositeIndex] = 0
+
+            // Play sound
+            playTune(soundCollectOpponentsPieces)
+          }
+        }
+
         // Switch player
         game.currentPlayer = 1 - game.currentPlayer
       }
 
+      printBoardText()
       prepareHandForSelection()
       return
     }
@@ -861,7 +898,8 @@ onInput("k", () => {
     // Skip oponnent's store
     if (index === storesIndexes[1 - game.currentPlayer])
       index++
-    game.board[index % game.board.length]++
+    index %= game.board.length
+    game.board[index]++
     printBoardText()
   }, 500)
 })
