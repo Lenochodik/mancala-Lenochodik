@@ -15,14 +15,8 @@ const nothing = "5"
 
 const handUp = "q"
 const handDown = "w"
-const pitSelected = "e"
 const handUpClosed = "r"
 const handDownClosed = "t"
-const tile6 = "y"
-const tile7 = "u"
-const tile8 = "i"
-const tile9 = "o"
-const tile10 = "a"
 
 const num0_R = "A"
 const num1_R = "B"
@@ -47,7 +41,7 @@ const num8_L = "S"
 const num9_L = "T"
 // =================================================
 
-// = Legends, solids, pushables ====================
+// = Legends =======================================
 setLegend(
   // Custom font
   // - right
@@ -393,7 +387,7 @@ setLegend(
 ................
 ................`],
   // Basics
-  [pit, bitmap`
+  /* [pit, bitmap`
 ....11111122....
 ...1000000002...
 ..100000000002..
@@ -409,24 +403,24 @@ setLegend(
 .10000000000001.
 ..100000000001..
 ...1000000001...
+....11111111....`],*/
+  [pit, bitmap`
+....11111122....
+...1000000002...
+..100000000002..
+.10000000000001.
+100002L1LLL00001
+10002LLLLLLL0002
+10002LLLLLLL0002
+1000LLLLLLLL0001
+10002LLLLLLL0001
+1000LLLLLLLL0001
+1000LLLLLLLL0001
+10000LLLLLL00001
+.10000000000001.
+..100000000001..
+...1000000001...
 ....11111111....`],
-  [pitSelected, bitmap`
-....DDDDDD44....
-...D000000004...
-..D00000000004..
-.D000000000000D.
-D00000000000000D
-D000000LD0000004
-D00000LLLD000004
-D0000LLLLLD0000D
-D0000LLLLLD0000D
-D00000LLLL00000D
-D000000LL000000D
-D00000000000000D
-.D000000000000D.
-..D0000000000D..
-...D00000000D...
-....DDDDDDDD....`],
   [storeUp, bitmap`
 ....11111111....
 ...1000000002...
@@ -434,27 +428,27 @@ D00000000000000D
 .10000000000002.
 1000000000000002
 10000LLLLLL00002
-1000LLLLLLLL0002
+1000LL22LLLL0002
+100LL2LLLLLLL001
+100L1LLLLLLLL001
+100L1LLLLLLLL001
+100LLLLLLLLLL001
+100L1LLLLLLLL001
 100LLLLLLLLLL001
 100LLLLLLLLLL001
 100LLLLLLLLLL001
-100LLLLLLLLLL001
-100LLLLLLLLLL001
-100LLLLLLLL1L001
-100LLLLLLLLLL001
-100LLLLLLLL1L001
-100LLLLLLLL1L001`],
+100LLLLLLLLLL001`],
   [storeDown, bitmap`
-100LLLLLLLL1L002
-100LLLLLLLL1L001
-100LLLLLLLL1L002
-100LLLLLLLL1L002
-100LLLLLLLL1L001
+100L1LLLLLLLL002
 100LLLLLLLLLL001
-100LLLLLLLL1L001
-100LLLLLLLL1L001
-100LLLLLLL1LL001
-1000LLLL11LL0001
+100LLLLLLLLLL002
+100LLLLLLLLLL002
+100LLLLLLLLLL001
+100L1LLLLLLLL001
+100L1LLLLLLLL001
+100LLLLLLLLLL001
+100LL2LLLLLLL001
+1000LL1LLLLL0001
 10000LLLLLL00001
 1000000000000001
 .10000000000001.
@@ -581,91 +575,6 @@ CC99999CCCCCCCC9`],
 ...000210220....
 .....021000.....
 ......000.......`],
-  [tile6, bitmap`
-1LLLLLLLLLLLLLLL
-1LLLLLLLLLLLLLLL
-1LLLLLLLLLLLLLLL
-1LLLLLLLLLLLLLLL
-11LLLLLLLLLLLLLL
-11LLLLLLLLLLLLLL
-.11LLLLLLLLLLLLL
-.11LLLLLLLLLLLLL
-..11LLLLLLLLLLLL
-...11LLLLLLLLLLL
-....11LLLLLLLLLL
-.....11LLLLLLLLL
-......111LLLLLLL
-.......1111LLLLL
-.........1111111
-...........11111`],
-  [tile7, bitmap`
-11LLLLLLLLLLLLLL
-11LLLLLLLLLLLLLL
-11LLLLLLLLLLLLLL
-11LLLLLLLLLLLLLL
-11LLLLLLLLLLLLLL
-11LLLLLLLLLLLLLL
-11LLLLLLLLLLLLLL
-11LLLLLLLLLLLLLL
-11LLLLLLLLLLLLLL
-11LLLLLLLLLLLLLL
-11LLLLLLLLLLLLLL
-11LLLLLLLLLLLLLL
-11LLLLLLLLLLLLLL
-11LLLLLLLLLLLLLL
-11LLLLLLLLLLLLLL
-11LLLLLLLLLLLLLL`],
-  [tile8, bitmap`
-LLLLLLLLLLLLLL22
-LLLLLLLLLLLLLL22
-LLLLLLLLLLLLLL22
-LLLLLLLLLLLLLL22
-LLLLLLLLLLLLLL11
-LLLLLLLLLLLLLL22
-LLLLLLLLLLLLLL11
-LLLLLLLLLLLLLL11
-LLLLLLLLLLLLLL11
-LLLLLLLLLLLLLL11
-LLLLLLLLLLLLLL11
-LLLLLLLLLLLLLL11
-LLLLLLLLLLLLLL11
-LLLLLLLLLLLLLL11
-LLLLLLLLLLLLLL11
-LLLLLLLLLLLLLL11`],
-  [tile9, bitmap`
-....33333333....
-...3333333333...
-..333333333333..
-.33333333333333.
-3333333333333333
-3333333333333333
-3333333333333333
-3333333333333333
-3333333333333333
-3333333333333333
-3333333333333333
-3333333333333333
-.33333333333333.
-..333333333333..
-...3333333333...
-....33333333....`],
-  [tile10, bitmap`
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................`],
 )
 // =================================================
 
@@ -686,7 +595,6 @@ setMap(levels[level])
 
 setBackground(nothing)
 // =================================================
-
 
 // = Melodies, sounds ==============================
 const soundMoveHand = tune`
@@ -720,7 +628,7 @@ const soundPlayAgain = tune`
 2250`
 // =================================================
 
-// = Functions =====================================
+// = Custom font functions =========================
 const customFont = [
   [num0_R, num1_R, num2_R, num3_R, num4_R, num5_R, num6_R, num7_R, num8_R, num9_R],
   [num0_L, num1_L, num2_L, num3_L, num4_L, num5_L, num6_L, num7_L, num8_L, num9_L],
@@ -741,11 +649,9 @@ const halfBoardSize = 6
 const initialPieces = 4
 const storesCount = 2
 const storesIndexes = [halfBoardSize, 2 * halfBoardSize + 1]
-const game = {
+let game = {
   board: Array(halfBoardSize * 2 + storesCount)
     .fill(initialPieces),
-  // For debug purposes:
-  // board: Array.from({ length: halfBoardSize * 2 + storesCount }, (_, index) => index),
   currentPlayer: 0,
 }
 game.board[storesIndexes[0]] = 0
@@ -758,6 +664,13 @@ const boardX = 2
 const storeLeftX = 1
 const storeRightX = 8
 const storeY = 4
+
+const handMinX = boardX
+const handMaxX = boardX + halfBoardSize - 1
+let objectHand = null
+let objectClosedHand = null
+
+let loopInterval = null
 
 function printBoardText() {
   // Bottom half
@@ -774,12 +687,6 @@ function printBoardText() {
   // Right store
   addCustomText(game.board[storesIndexes[0]].toString(), storeRightX, storeY, storeDown)
 }
-printBoardText()
-
-
-const handMinX = boardX
-const handMaxX = boardX + halfBoardSize - 1
-let objectHand = null
 
 function prepareHandForSelection() {
   const isBot = game.currentPlayer === 0
@@ -793,11 +700,10 @@ function prepareHandForSelection() {
   clearText()
   addText("Your turn", {
     x: width() / 2,
-    y: isBot? 2 * height() - 1 : 0,
+    y: isBot ? 2 * height() - 1 : 0,
     color: color`6`
   })
 }
-prepareHandForSelection()
 
 function handCoordsToBoardCoords() {
   const isBot = game.currentPlayer === 0
@@ -807,6 +713,85 @@ function handCoordsToBoardCoords() {
   else
     return handMaxX - objectHand.x + (halfBoardSize + 1)
 }
+
+// Returns coords in form of: [x, y, sprite]
+function boardCoordsToHandCoords(index) {
+  if (index >= 0 && index < halfBoardSize)
+    return [boardX + index, boardBotY + 1, handUpClosed];
+  if (index === storesIndexes[0])
+    return [boardX + index, boardBotY, handUpClosed];
+
+  if (index > halfBoardSize && index <= (2 * halfBoardSize))
+    return [boardX + halfBoardSize - 1 - (index - halfBoardSize - 1), boardTopY - 1, handDownClosed];
+  return [boardX - 1, boardTopY, handDownClosed];
+}
+
+function showClosedHand(index) {
+  const handCoords = boardCoordsToHandCoords(index)
+  objectClosedHand?.remove()
+  addSprite(handCoords[0], handCoords[1], handCoords[2])
+  objectClosedHand = getFirst(handCoords[2])
+}
+
+function haveCurrentPlayerAnyMovesLeft() {
+  let sum = 0;
+  const startIndexByPlayer = game.currentPlayer === 0 ? 0 : halfBoardSize + 1;
+  for (let i = 0; i < halfBoardSize; i++)
+    sum += game.board[i + startIndexByPlayer]
+  return sum > 0
+}
+
+function collectAllPiecesLeft() {
+  const startIndexOpposite = game.currentPlayer === 1 ? 0 : halfBoardSize + 1;
+  for (let i = 0; i < halfBoardSize; i++) {
+    game.board[storesIndexes[1 - game.currentPlayer]] += game.board[i + startIndexOpposite]
+    game.board[i + startIndexOpposite] = 0
+  }
+  printBoardText()
+}
+
+function printGameStatus() {
+  const storeBot = game.board[storesIndexes[0]]
+  const storeTop = game.board[storesIndexes[1]]
+
+  clearText()
+
+  if (storeBot === storeTop) {
+    addText("It's a draw!", {
+      x: width() / 2,
+      y: 2 * height() - 1,
+      color: color`6`
+    })
+
+    addText("It's a draw!", {
+      x: width() / 2,
+      y: 0,
+      color: color`6`
+    })
+
+    return
+  }
+
+  addText("You win!", {
+    x: width() / 2,
+    y: storeBot > storeTop ? 2 * height() - 1 : 0,
+    color: color`6`
+  })
+}
+
+function startNewGame() {
+  setMap(levels[level])
+  game = {
+    board: Array(halfBoardSize * 2 + storesCount)
+      .fill(initialPieces),
+    currentPlayer: 0,
+  }
+  game.board[storesIndexes[0]] = 0
+  game.board[storesIndexes[1]] = 0
+  printBoardText()
+  prepareHandForSelection()
+}
+startNewGame()
 
 onInput("a", () => {
   if (!objectHand) return
@@ -830,7 +815,10 @@ onInput("d", () => {
   }
 })
 
-// TODO: check the end of the game (no pieces on one side)
+onInput("l", () => {
+  clearInterval(loopInterval)
+  startNewGame()
+})
 
 onInput("k", () => {
   if (!objectHand) return
@@ -850,8 +838,10 @@ onInput("k", () => {
   objectHand.remove()
   objectHand = null
 
+  showClosedHand(index)
+
   // Loop to spread the pieces
-  let loopInterval = setInterval(() => {
+  loopInterval = setInterval(() => {
     if (pieces <= 0) {
       clearInterval(loopInterval)
 
@@ -886,8 +876,18 @@ onInput("k", () => {
         game.currentPlayer = 1 - game.currentPlayer
       }
 
+      objectClosedHand.remove()
+      objectClosedHand = null
+
       printBoardText()
-      prepareHandForSelection()
+
+      // Check for the end of the game (no pieces on current side)
+      if (!haveCurrentPlayerAnyMovesLeft()) {
+        collectAllPiecesLeft();
+        printGameStatus();
+      } else
+        prepareHandForSelection()
+
       return
     }
 
@@ -901,5 +901,7 @@ onInput("k", () => {
     index %= game.board.length
     game.board[index]++
     printBoardText()
+
+    showClosedHand(index)
   }, 500)
 })
