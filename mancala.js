@@ -2,7 +2,7 @@
 @title: Mancala
 @author: Lenochodik
 @tags: ['strategy', 'classic', 'multiplayer', 'logic']
-@addedOn: 2024-00-00
+@addedOn: 2024-08-06
 */
 
 // = Types =========================================
@@ -1020,13 +1020,12 @@ function haveCurrentPlayerAnyMovesLeft() {
 }
 
 async function collectAllPiecesLeft() {
-  // TODO: here is some bug
   const startIndexOpposite = game.currentPlayer === 1 ? 0 : halfBoardSize + 1;
 
   let indexes = []
   for (let i = 0; i < halfBoardSize; i++)
     indexes.push(i + startIndexOpposite)
-  showClosedHand(indexes)
+  showClosedHand(...indexes)
 
   await delay(1000)
 
