@@ -19,3 +19,7 @@ It's also known as Bantumi. You can find detailed rules anywhere (for example: h
 ## 🖼 Screenshots
 ![mancala](https://github.com/user-attachments/assets/e60f93ea-055b-495d-9085-d254037a065a)
 ![mancala2](https://github.com/user-attachments/assets/a4513e2f-ab67-4be2-a611-05a37d492c84)
+
+
+## 🕹 Play the game (Sprig Gallery)
+You can play game in Sprig Gallery: [https://sprig.hackclub.com/gallery/Mancala](https://sprig.hackclub.com/gallery/Mancala)
